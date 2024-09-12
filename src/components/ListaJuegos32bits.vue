@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Tienda de videojuegos 32 Bits</h1>
+    <p>Lista de juegos</p>
     <table v-if="juegos.length > 0">
       <thead>
         <tr>
@@ -17,7 +18,7 @@
           <td>{{ juego.codigo }}</td>
           <td>{{ juego.nombre }}</td>
           <td>{{ juego.stock }}</td>
-          <td>{{ juego.precio }}</td>
+          <td>{{ formatoPrecio(juego.precio) }}</td>
           <td :style="{ color: juego.color }">{{ juego.color }}</td>
           <td>
             <button @click="accionIncrementar(juego.codigo)">+</button>
@@ -49,6 +50,10 @@ export default {
     accionDecrementar(codigo) {
       this.$store.dispatch("stockJuego", { codigo, stock: "restar" });
     },
+    formatoPrecio(precio) {
+      const precioNumero = Number(precio);
+      return `$${precioNumero.toLocaleString()}`;
+    },
   },
   mounted() {
     this.$store.dispatch("fetchJuegos");
@@ -63,7 +68,8 @@ body {
   padding: 0;
 }
 
-h1 {
+h1,
+p {
   text-align: center;
   margin-top: 50px;
 }
